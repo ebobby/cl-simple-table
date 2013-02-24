@@ -22,7 +22,7 @@ CL-USER> (simple-table:make-table)
 #()
 ```
 
-### @(make-row ())@
+###     (make-row ())
 
 Creates a new empty table and returns it.
 
@@ -33,7 +33,7 @@ CL-USER> (simple-table:make-row)
 #()
 ```
 
-### @(add-to-row (value row))@
+###     (add-to-row (value row))
 
 Appends the value as a new column in the given row and returns the row.
 
@@ -48,7 +48,7 @@ CL-USER> (simple-table:add-to-row
 #("Hello" ", world!")
 ```
 
-### @(add-to-table (row table))@
+###     (add-to-table (row table))
 
 Appends the row to the table and returns the table.
 
