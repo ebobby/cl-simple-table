@@ -37,6 +37,11 @@
   "Gets the value in the given column inside row."
   (elt row column))
 
+(defun set-row-column (column value row)
+  "Sets the value of the given column inside the row."
+  (setf (elt row column) value)
+  row)
+
 (defun num-rows (table)
   "Returns the number of rows in the table."
   (length table))

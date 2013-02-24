@@ -9,11 +9,12 @@
   (:export :make-table
            :make-row
            :add-to-table
+           :add-to-row
+           :get-row
+           :get-row-column
+           :set-row-column
            :num-rows
            :num-cols
-           :get-row
-           :add-to-row
-           :get-row-column
            :num-col
            :rectangular-table-p
            :sequence->row
