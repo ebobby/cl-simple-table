@@ -24,6 +24,11 @@
   (vector-push-extend row table)
   table)
 
+(defun add-to-row (value row)
+  "Append a column to row and set it to the given value."
+  (vector-push-extend value row)
+  row)
+
 (defun num-rows (table)
   "Returns the number of rows in the table."
   (length table))
@@ -35,11 +40,6 @@
 (defun get-row (index table)
   "Returns the row in the given index inside the table."
   (elt table index))
-
-(defun add-to-row (value row)
-  "Append a column to row and set it to the given value."
-  (vector-push-extend value row)
-  row)
 
 (defun get-row-column (column row)
   "Gets the value in the given column inside row."
