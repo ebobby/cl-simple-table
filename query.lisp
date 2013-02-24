@@ -27,7 +27,8 @@
 
 (defun top (table n)
   "Returns the top n rows from the table."
-  (subseq table 0 n))
+  (let ((how-many (min n (num-rows table))))
+    (subseq table 0 how-many)))
 
 (defun order-by (table col op)
   "Orders the table by the value in the given column using op."
