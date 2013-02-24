@@ -19,9 +19,10 @@
   "Create a row."
   (make-array 1 :fill-pointer 0 :adjustable t))
 
-(defun add-row (row table)
-  "Add row to the table."
-  (vector-push-extend row table))
+(defun add-to-table (row table)
+  "Appends a row to the table."
+  (vector-push-extend row table)
+  table)
 
 (defun num-rows (table)
   "Returns the number of rows in the table."
@@ -37,7 +38,8 @@
 
 (defun add-to-row (value row)
   "Append a column to row and set it to the given value."
-  (vector-push-extend value row))
+  (vector-push-extend value row)
+  row)
 
 (defun get-row-column (column row)
   "Gets the value in the given column inside row."

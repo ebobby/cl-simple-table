@@ -11,7 +11,7 @@
         (mapc (lambda (col)
                 (add-to-row (get-row-column col row) new-row))
               columns)
-        (add-row new-row result)))))
+        (add-to-table new-row result)))))
 
 (defun distinct (table column)
   "Returns the unique elements from the given column in the given table."
@@ -23,7 +23,7 @@
           (let ((new-row (make-row)))
             (setf (gethash value added) t)
             (add-to-row value new-row)
-            (add-row new-row result)))))))
+            (add-to-table new-row result)))))))
 
 (defun top (table n)
   "Returns the top n rows from the table."

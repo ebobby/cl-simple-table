@@ -8,7 +8,7 @@
   (:use :cl)
   (:export :make-table
            :make-row
-           :add-row
+           :add-to-table
            :num-rows
            :num-cols
            :get-row
