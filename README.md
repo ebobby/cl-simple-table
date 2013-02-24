@@ -33,6 +33,19 @@ CL-USER> (simple-table:make-row)
 #()
 ```
 
+###     (add-to-table (row table))
+
+Appends the row to the table and returns the table.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:add-to-table
+          (simple-table:add-to-row "Hello" (simple-table:make-row))
+          (simple-table:make-table))
+#(#("Hello"))
+```
+
 ###     (add-to-row (value row))
 
 Appends the value as a new column in the given row and returns the row.
@@ -48,17 +61,43 @@ CL-USER> (simple-table:add-to-row
 #("Hello" ", world!")
 ```
 
-###     (add-to-table (row table))
+###     (get-row (index table))
 
-Appends the row to the table and returns the table.
+Gets the row at the given index from the table. The first row is index 0.
 
 Example:
 
 ```Lisp
-CL-USER> (simple-table:add-to-table
-          (simple-table:add-to-row "Hello" (simple-table:make-row))
-          (simple-table:make-table))
-#(#("Hello"))
+CL-USER> (simple-table:get-row 0 *data*)
+#("Year" "Make" "Model")
+CL-USER> (simple-table:get-row 1 *data*)
+#("1997" "Ford" "E350")
+```
+
+###     (get-row-column (column row))
+
+Gets the value in the given column from row. The first column is 0.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:get-row-column 0 (simple-table:get-row 1 *data*))
+"1997"
+CL-USER> (simple-table:get-row-column 1 (simple-table:get-row 1 *data*))
+"Ford"
+```
+
+###     (set-row-column (column value row))
+
+Sets the value in the given column of row and returns the row. The first column is 0.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:set-row-column
+          2 "Mustang"
+          (simple-table:set-row-column 0 "1967" (simple-table:get-row 1 *data*)))
+#("1967" "Ford" "Mustang")
 ```
 
 ## Final remarks
