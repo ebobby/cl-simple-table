@@ -9,7 +9,9 @@ Internally, tables are just arrays of arrays (not multidimensional, actual array
 
 None.
 
-## Usage
+# Usage
+
+## Table and row handling.
 
 ###     (make-table ())
 
@@ -98,6 +100,110 @@ CL-USER> (simple-table:set-row-column
           2 "Mustang"
           (simple-table:set-row-column 0 "1967" (simple-table:get-row 1 *data*)))
 #("1967" "Ford" "Mustang")
+```
+
+###     (num-rows (table))
+
+Returns the number of rows in the given table.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:num-rows (simple-table:make-table))
+0
+CL-USER> (simple-table:num-rows (simple-table:add-to-table
+                                 (simple-table:make-row)
+                                 (simple-table:make-table)))
+1
+```
+
+###     (num-cols (row))
+
+Returns the number of values in the given row.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:num-cols (simple-table:make-row))
+0
+CL-USER> (simple-table:num-cols (simple-table:add-to-row
+                                 "Hello, world!"
+                                 (simple-table:make-row)))
+1
+```
+
+###     (rectangular-table-p (table))
+
+Returns true if all the rows in the table have the same number of elements.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:rectangular-table-p (simple-table:make-table))
+T
+CL-USER> (simple-table:rectangular-table-p (simple-table:add-to-table
+                                            (simple-table:make-row)
+                                            (simple-table:make-table)))
+T
+CL-USER> (simple-table:rectangular-table-p (simple-table:add-to-table
+                                            (simple-table:add-to-row
+                                             "Oops!"
+                                             (simple-table:make-row))
+                                            (simple-table:add-to-table
+                                             (simple-table:make-row)
+                                             (simple-table:make-table))))
+NIL
+```
+
+###     (sequence->row (elements))
+
+Converts a sequence of elements into a table row.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:sequence->row (list 1 2 3))
+#(1 2 3)
+CL-USER> (simple-table:sequence->row "Hello") ; Strings are sequence of characters!
+#(#\H #\e #\l #\l #\o)
+```
+
+###     (row-sequence->table (rows))
+
+Converts a sequence of rows into a table.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:row-sequence->table (list
+                                            (simple-table:sequence->row (list "Col1" "Col2"))
+                                            (simple-table:sequence->row (list 1 2))
+                                            (simple-table:sequence->row (list 2 3))))
+#(#("Col1" "Col2") #(1 2) #(2 3))
+```
+
+###     (with-rows ((table row-var &optional return-expression) &body body)
+
+*with-rows* is a macro to help you iterate the rows on a given _table_ and with a reference to each row in _row-var_, optionally returning _return-expression_.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:with-rows (*data* row)
+           (print row))
+
+#("Year" "Make" "Model")
+#("1967" "Ford" "Mustang")
+#("2000" "Mercury" "Cougar")
+NIL
+
+CL-USER> (let ((new-table (simple-table:make-table)))
+           (simple-table:with-rows (*data* row new-table)
+             (simple-table:add-to-table (simple-table:add-to-row
+                                         (simple-table:get-row-column 1 row)
+                                         (simple-table:make-row))
+                                        new-table)))
+#(#("Make") #("Ford") #("Mercury"))
 ```
 
 ## Final remarks
