@@ -1,5 +1,5 @@
-;;; Simple table data structure.
-;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
+;;;; Simple table data structure.
+;;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
 
 (in-package :cl-user)
 
@@ -9,11 +9,12 @@
   (:export :make-table
            :make-row
            :add-to-table
+           :add-to-row
+           :get-row
+           :get-row-column
+           :set-row-column
            :num-rows
            :num-cols
-           :get-row
-           :add-to-row
-           :get-row-column
            :num-col
            :rectangular-table-p
            :sequence->row

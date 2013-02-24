@@ -1,5 +1,5 @@
-;;; Simple table data structure.
-;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
+;;;; Simple table data structure.
+;;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
 
 (in-package :cl-simple-table)
 
@@ -24,6 +24,24 @@
   (vector-push-extend row table)
   table)
 
+(defun add-to-row (value row)
+  "Append a column to row and set it to the given value."
+  (vector-push-extend value row)
+  row)
+
+(defun get-row (index table)
+  "Returns the row in the given index inside the table."
+  (elt table index))
+
+(defun get-row-column (column row)
+  "Gets the value in the given column inside row."
+  (elt row column))
+
+(defun set-row-column (column value row)
+  "Sets the value of the given column inside the row."
+  (setf (elt row column) value)
+  row)
+
 (defun num-rows (table)
   "Returns the number of rows in the table."
   (length table))
@@ -31,19 +49,6 @@
 (defun num-cols (row)
   "Returns the number of elements in this row."
   (length row))
-
-(defun get-row (index table)
-  "Returns the row in the given index inside the table."
-  (elt table index))
-
-(defun add-to-row (value row)
-  "Append a column to row and set it to the given value."
-  (vector-push-extend value row)
-  row)
-
-(defun get-row-column (column row)
-  "Gets the value in the given column inside row."
-  (elt row column))
 
 (defun rectangular-table-p (table)
   "Returns true if all the rows in the table have the same number of elements."
