@@ -29,14 +29,6 @@
   (vector-push-extend value row)
   row)
 
-(defun num-rows (table)
-  "Returns the number of rows in the table."
-  (length table))
-
-(defun num-cols (row)
-  "Returns the number of elements in this row."
-  (length row))
-
 (defun get-row (index table)
   "Returns the row in the given index inside the table."
   (elt table index))
@@ -44,6 +36,14 @@
 (defun get-row-column (column row)
   "Gets the value in the given column inside row."
   (elt row column))
+
+(defun num-rows (table)
+  "Returns the number of rows in the table."
+  (length table))
+
+(defun num-cols (row)
+  "Returns the number of elements in this row."
+  (length row))
 
 (defun rectangular-table-p (table)
   "Returns true if all the rows in the table have the same number of elements."
