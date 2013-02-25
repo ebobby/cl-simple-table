@@ -328,6 +328,40 @@ CL-USER> (simple-table:order-by (simple-table:read-tsv #P"example.tsv") 0 #'stri
   #("Year" "Make" "Model"))
 ```
 
+###     (where (table filter))
+
+Filters the result of the table using the given filter, returns a new table. Filter should be a predicate that takes a row and decides whether to include it in the result or not.
+Although the filter can be created by hand it is easier to use _where-filter_, _where-and_ and _where-or_.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:where (simple-table:read-tsv #P"example.tsv" t)
+                             (lambda (row)
+                               (let ((value (simple-table:get-row-column 0 row)))
+                                 (and (numberp value) (= value 2013)))))
+#(#(2013 MASERATI GRAN) #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER)
+  #(2013 DODGE CHALLENGER))
+```
+
+###     (where-filter (op column value))
+
+Returns a filter applicable for *where*, it calls _op_ to compare the given _value_ and the value stored in column for every row. Besides calling _op_ the filter returned will also check the type of the values are the same before being compared.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR)
+  #(2008 VOLKWSWAGEN POINTER) #(1967 FORD MUSTANG) #(2013 MASERATI GRAN)
+  #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER) #(2013 DODGE CHALLENGER))
+
+CL-USER> (simple-table:where (simple-table:read-tsv #P"example.tsv" t)
+                             (simple-table:where-filter #'= 0 2013))
+#(#(2013 MASERATI GRAN) #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER)
+  #(2013 DODGE CHALLENGER))
+```
+
 ## Final remarks
 
 I hope this code is useful to you in any sense, either for learning, reading or maybe actual practical use, I will be very glad if you can even modify it to suit your needs. If you have suggestions please send them my way. Be sure to read *COPYING* file as well.
