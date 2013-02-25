@@ -229,6 +229,7 @@ Reads a csv (comma separated values) file into a table, optionally parsing the e
 ```Lisp
 CL-USER> (simple-table:read-csv #P"example.csv" t)
 #(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR))
+
 CL-USER> (simple-table:read-csv #P"example.csv")
 #(#("Year" "Make" "Model") #("1997" "Ford" "E350") #("2000" "Mercury" "Cougar"))
 ```
@@ -240,6 +241,7 @@ Reads a tsv (table separated values) file into a table, optionally parsing the e
 ```Lisp
 CL-USER> (simple-table:read-tsv #P"example.tsv" t)
 #(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR))
+
 CL-USER> (simple-table:read-tsv #P"example.tsv")
 #(#("Year" "Make" "Model") #("1997" "Ford" "E350") #("2000" "Mercury" "Cougar"))
 ```
