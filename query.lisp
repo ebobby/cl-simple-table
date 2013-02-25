@@ -35,7 +35,11 @@
   (sort table op :key (lambda (row) (get-row-column col row))))
 
 (defun where (table filter)
-  "Filters the result of the table using the given operator."
+  "Filters the result of the table using the given filter, returns a new table. Filters
+   the result of the table using the given filter, returns a new table. Filter should be
+   a predicate that takes a row and decides whether to include it in the result or not.
+   Although the filter can be created by hand it is easier to use where-filter, where-and
+    and where-or."
   (remove-if-not filter
                  table))
 
