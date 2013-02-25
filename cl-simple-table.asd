@@ -9,7 +9,7 @@
 (in-package :cl-simple-table-asd)
 
 (asdf:defsystem #:cl-simple-table
-  :version "0.0.1"
+  :version "1.0.0"
   :name "cl-simple-table"
   :author "Francisco Soto <ebobby@ebobby.org>"
   :license "BSD"
