@@ -246,6 +246,88 @@ CL-USER> (simple-table:read-tsv #P"example.tsv")
 #(#("Year" "Make" "Model") #("1997" "Ford" "E350") #("2000" "Mercury" "Cougar"))
 ```
 
+## Querying
+
+These are designed to query the data inside tables with SQL-like functions. They all work with tables and rows and return tables and rows so you can chain them together to build complex queries.
+
+###     (select (table &rest columns))
+
+Selects the given columns from the table and returns them as a new table.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR)
+  #(2008 VOLKWSWAGEN POINTER) #(1967 FORD MUSTANG) #(2013 MASERATI GRAN))
+
+CL-USER> (simple-table:select (simple-table:read-tsv #P"example.tsv" t) 1)
+#(#(MAKE) #(FORD) #(MERCURY) #(VOLKWSWAGEN) #(FORD) #(MASERATI))
+
+CL-USER> (simple-table:select (simple-table:read-tsv #P"example.tsv" t) 0 2)
+#(#(YEAR MODEL) #(1997 E350) #(2000 COUGAR) #(2008 POINTER) #(1967 MUSTANG)
+  #(2013 GRAN))
+```
+
+###     (distinct (table column))
+
+Returns the unique elements from the given column in the given table as a new table.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR)
+  #(2008 VOLKWSWAGEN POINTER) #(1967 FORD MUSTANG) #(2013 MASERATI GRAN)
+  #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER) #(2013 DODGE CHALLENGER))
+
+CL-USER> (simple-table:distinct (simple-table:read-tsv #P"example.tsv" t) 0)
+#(#(YEAR) #(1997) #(2000) #(2008) #(1967) #(2013))
+
+CL-USER> (simple-table:distinct (simple-table:read-tsv #P"example.tsv" t) 1)
+#(#(MAKE) #(FORD) #(MERCURY) #(VOLKWSWAGEN) #(MASERATI) #(CHEVY) #(DODGE))
+```
+
+###     (top (table n))
+
+Returns a new table with the top n rows from the given table.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR)
+  #(2008 VOLKWSWAGEN POINTER) #(1967 FORD MUSTANG) #(2013 MASERATI GRAN)
+  #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER) #(2013 DODGE CHALLENGER))
+
+CL-USER> (simple-table:top (simple-table:read-tsv #P"example.tsv" t) 1)
+#(#(YEAR MAKE MODEL))
+
+CL-USER> (simple-table:top (simple-table:read-tsv #P"example.tsv" t) 2)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350))
+```
+
+###     (order-by (table col op))
+
+Returns a new table sorted by the value in the given column and table using op.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv")
+#(#("Year" "Make" "Model") #("1997" "Ford" "E350") #("2000" "Mercury" "Cougar")
+  #("2008" "Volkwswagen" "Pointer") #("1967" "Ford" "Mustang")
+  #("2013" "Maserati" "Gran Turismo") #("2013" "Chevy" "Camaro")
+  #("2013" "Dodge" "Charger") #("2013" "Dodge" "Challenger"))
+
+CL-USER> (simple-table:order-by (simple-table:read-tsv #P"example.tsv") 0 #'string<)
+#(#("1967" "Ford" "Mustang") #("1997" "Ford" "E350")
+  #("2000" "Mercury" "Cougar") #("2008" "Volkwswagen" "Pointer")
+  #("2013" "Maserati" "Gran Turismo") #("2013" "Chevy" "Camaro")
+  #("2013" "Dodge" "Challenger") #("2013" "Dodge" "Charger")
+  #("Year" "Make" "Model"))
+```
+
 ## Final remarks
 
 I hope this code is useful to you in any sense, either for learning, reading or maybe actual practical use, I will be very glad if you can even modify it to suit your needs. If you have suggestions please send them my way. Be sure to read *COPYING* file as well.
