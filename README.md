@@ -206,6 +206,44 @@ CL-USER> (let ((new-table (simple-table:make-table)))
 #(#("Make") #("Ford") #("Mercury"))
 ```
 
+## Data importing.
+
+###     (table-from-file (filename &key (separator #\tab) parse-elements))
+
+Reads a tabular data file pointed by _filename_ with columns separated by _separator_, if _parse-elements_ is not NIL then *READ* will be applied to each element and parsed into Lisp objects, otherwise it creates only strings. It returns the table with the data read.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:table-from-file #P"example.csv" :separator #\, :parse-elements t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR))
+
+CL-USER> (simple-table:table-from-file #P"example.csv" :separator #\,)
+#(#("Year" "Make" "Model") #("1997" "Ford" "E350") #("2000" "Mercury" "Cougar"))
+```
+
+###     (read-csv (filename &optional parse-elements))
+
+Reads a csv (comma separated values) file into a table, optionally parsing the elements into Lisp objects. This is a wrapper for *table-from-file*.
+
+```Lisp
+CL-USER> (simple-table:read-csv #P"example.csv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR))
+CL-USER> (simple-table:read-csv #P"example.csv")
+#(#("Year" "Make" "Model") #("1997" "Ford" "E350") #("2000" "Mercury" "Cougar"))
+```
+
+###     (read-tsv (filename &optional parse-elements))
+
+Reads a tsv (table separated values) file into a table, optionally parsing the elements into Lisp objects. This is a wrapper for *table-from-file*.
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR))
+CL-USER> (simple-table:read-tsv #P"example.tsv")
+#(#("Year" "Make" "Model") #("1997" "Ford" "E350") #("2000" "Mercury" "Cougar"))
+```
+
 ## Final remarks
 
 I hope this code is useful to you in any sense, either for learning, reading or maybe actual practical use, I will be very glad if you can even modify it to suit your needs. If you have suggestions please send them my way. Be sure to read *COPYING* file as well.
