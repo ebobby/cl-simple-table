@@ -362,6 +362,43 @@ CL-USER> (simple-table:where (simple-table:read-tsv #P"example.tsv" t)
   #(2013 DODGE CHALLENGER))
 ```
 
+###     (where-or (&rest filters))
+
+Given a list of filters created by where-filter this returns true if any of them is true.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR)
+  #(2008 VOLKWSWAGEN POINTER) #(1967 FORD MUSTANG) #(2013 MASERATI GRAN)
+  #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER) #(2013 DODGE CHALLENGER))
+
+CL-USER> (simple-table:where (simple-table:read-tsv #P"example.tsv" t)
+                             (simple-table:where-or (simple-table:where-filter #'= 0 2013)
+                                                    (simple-table:where-filter #'eq 1 'FORD)))
+#(#(1997 FORD E350) #(1967 FORD MUSTANG) #(2013 MASERATI GRAN)
+  #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER) #(2013 DODGE CHALLENGER))
+```
+
+###     (where-and (&rest filters))
+
+Given a list of filters created by where-filter this returns true if all of them are true.
+
+Example:
+
+```Lisp
+CL-USER> (simple-table:read-tsv #P"example.tsv" t)
+#(#(YEAR MAKE MODEL) #(1997 FORD E350) #(2000 MERCURY COUGAR)
+  #(2008 VOLKWSWAGEN POINTER) #(1967 FORD MUSTANG) #(2013 MASERATI GRAN)
+  #(2013 CHEVY CAMARO) #(2013 DODGE CHARGER) #(2013 DODGE CHALLENGER))
+
+CL-USER> (simple-table:where (simple-table:read-tsv #P"example.tsv" t)
+                             (simple-table:where-and (simple-table:where-filter #'= 0 1967)
+                                                     (simple-table:where-filter #'eq 1 'FORD)))
+#(#(1967 FORD MUSTANG))
+```
+
 ## Final remarks
 
 I hope this code is useful to you in any sense, either for learning, reading or maybe actual practical use, I will be very glad if you can even modify it to suit your needs. If you have suggestions please send them my way. Be sure to read *COPYING* file as well.
