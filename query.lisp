@@ -35,14 +35,23 @@
   (sort table op :key (lambda (row) (get-row-column col row))))
 
 (defun where (table filter)
-  "Filters the result of the table using the given operator."
+  "Filters the result of the table using the given filter, returns a new table. Filters
+   the result of the table using the given filter, returns a new table. Filter should be
+   a predicate that takes a row and decides whether to include it in the result or not.
+   Although the filter can be created by hand it is easier to use where-filter, where-and
+    and where-or."
   (remove-if-not filter
                  table))
 
 (defun where-filter (op column value)
-  "Returns a filter applicable for where, it calls op to compare the given
-  value and the value stored in column for every row. "
-  (lambda (row) (funcall op value (get-row-column column row))))
+  "Returns a filter applicable for where, it calls op to compare the given value and the
+   value stored in column for every row. Besides calling op the filter returned will also
+   check the type of the values are the same before being compared."
+  (let ((value-type (type-of value)))
+    (lambda (row)
+      (let ((val (get-row-column column row)))
+        (and (typep val value-type)
+             (funcall op value (get-row-column column row)))))))
 
 (defun where-or (&rest filters)
   "Given a list of filters created by where-filter this returns true if any of them is true."
