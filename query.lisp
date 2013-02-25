@@ -4,7 +4,7 @@
 (in-package :cl-simple-table)
 
 (defun select (table &rest columns)
-  "Selects the given columns from the table."
+  "Selects the given columns from the table and returns them as a new table."
   (let ((result (make-table)))
     (with-rows (table row result)
       (let ((new-row (make-row)))
@@ -14,7 +14,7 @@
         (add-to-table new-row result)))))
 
 (defun distinct (table column)
-  "Returns the unique elements from the given column in the given table."
+  "Returns the unique elements from the given column in the given table as a new table."
   (let ((added (make-hash-table :test #'equal))
         (result (make-table)))
     (with-rows (table row result)
@@ -26,12 +26,12 @@
             (add-to-table new-row result)))))))
 
 (defun top (table n)
-  "Returns the top n rows from the table."
+  "Returns a new table with the top n rows from the given table."
   (let ((how-many (min n (num-rows table))))
     (subseq table 0 how-many)))
 
 (defun order-by (table col op)
-  "Orders the table by the value in the given column using op."
+  "Returns a new table sorted by the value in the given column and table using op."
   (sort table op :key (lambda (row) (get-row-column col row))))
 
 (defun where (table filter)
