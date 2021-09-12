@@ -1,5 +1,4 @@
-;;;; Simple table data structure.
-;;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
+;;; -*- Mode: LISP; Base: 10; Syntax: ANSI-Common-Lisp; Package: CL-SIMPLE-TABLE -*-
 
 (in-package :cl-simple-table)
 
@@ -11,13 +10,16 @@
   "Table type."
   `(vector row *))
 
-(defun make-table ()
-  "Creates a table."
-  (make-array 1 :element-type 'row :fill-pointer 0 :adjustable t))
-
 (defun make-row ()
   "Create a row."
   (make-array 1 :fill-pointer 0 :adjustable t))
+
+(defun make-table ()
+  "Creates a table."
+  (make-array 1 :element-type 'row
+	        :initial-element (make-row)
+		:fill-pointer 0
+		:adjustable t))
 
 (defun add-to-table (row table)
   "Appends a row to the table."

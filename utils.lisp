@@ -1,6 +1,4 @@
-;;;; Simple table data structure.
-;;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
-
+;;; -*- Mode: LISP; Base: 10; Syntax: ANSI-Common-Lisp; Package: CL-SIMPLE-TABLE -*-
 (in-package :cl-simple-table)
 
 (defun split-string (separator str)
@@ -9,7 +7,8 @@
            (type string str))
   (loop
      with len = (length str)
-     for fr = 0 then (1+ in)
-     while (<= fr len)
-     for in = (or (position separator str :test #'char= :start fr) len)
-     collect (subseq str fr in)))
+     for start = 0 then (1+ end)
+     while (<= start len)
+     for end = (or (position separator str :test #'char= :start start)
+		   len)
+     collect (subseq str start end)))

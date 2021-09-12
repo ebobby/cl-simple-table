@@ -1,5 +1,4 @@
-;;;; Simple table data structure.
-;;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
+;;; -*- Mode: LISP; Base: 10; Syntax: ANSI-Common-Lisp; Package: CL-SIMPLE-TABLE -*-
 
 (in-package :cl-simple-table)
 

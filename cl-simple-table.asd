@@ -1,19 +1,13 @@
-;;;; Simple table data structure.
-;;;; Copyright (c) 2013, Francisco Soto All rights reserved (see COPYING file for details).
+;;; -*- Mode: LISP; Base: 10; Syntax: ANSI-Common-Lisp; Package: ASDF -*-
 
-(in-package :cl-user)
-
-(defpackage :cl-simple-table-asd
-  (:use :cl :asdf))
-
-(in-package :cl-simple-table-asd)
-
-(asdf:defsystem #:cl-simple-table
-  :version "1.0.0"
+(defsystem "cl-simple-table"
+  :version "1.1.0"
   :name "cl-simple-table"
   :author "Francisco Soto <ebobby@ebobby.org>"
+  :maintainer  "Steve Nunez <steve@symbolics.tech>"
   :license "BSD"
   :description "Simple in-memory tabular data structure and utility methods."
+  :depends-on ("alexandria")
   :components ((:file "packages")
                (:file "utils" :depends-on ("packages"))
                (:file "table" :depends-on ("packages"))
